@@ -1,8 +1,8 @@
-# 🔗 mc_execute
+# 🔗 mc-execute
 
 > Simulate Minecraft `execute` commands in a Python environment.
 
-**mc_execute** is a library for simulating Minecraft `execute` command chains within Python.
+**mc-execute** is a library for simulating Minecraft `execute` command chains within Python.
 
 ### Features
 - NumPy Integration: Provides execute context's position and rotation data as numpy arrays.
@@ -79,4 +79,4 @@ For more details, see the [example](./example.ipynb) and [API Documentation](./A
 
 ### Licences
 
-mc_execute provides [MIT License](./LICENSE).
+mc-execute provides [MIT License](./LICENSE).

@@ -1,4 +1,4 @@
-# 🔗 mc_execute - API Documentation
+# 🔗 mc-execute - API Documentation
 
 ---
 
