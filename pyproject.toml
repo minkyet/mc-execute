@@ -1,6 +1,6 @@
 [project]
 name = "mc-execute"
-version = "0.2.0"
+version = "0.2.1"
 description = "Simple python library that simulates Minecraft's execute command."
 readme = "README.md"
 requires-python = ">=3.12"

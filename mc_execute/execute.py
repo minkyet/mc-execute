@@ -81,7 +81,7 @@ class Execute:
 
     def facing(self, arg: Entity | list[Entity] | np.ndarray | str = "@s", anchor: EntityAnchor | str = EntityAnchor.feet) -> Execute:
         if isinstance(anchor, str): anchor = EntityAnchor(anchor)
-        if arg == "@s":
+        if isinstance(arg, str) and arg == "@s":
             if any(e is None for e in self.__entities):
                 raise ValueError("Cannot execute 'facing entity @s' from a non-entity source.")
             rotations = []
@@ -89,7 +89,7 @@ class Execute:
                 delta = facing_to.getAnchoredPosition(anchor) - facing_from
                 rotations.append(self.__getFacingRotation(delta))
             self.__rotations = np.array(rotations)
-        elif isinstance(arg, np.ndarray | str) and arg != "@s":
+        elif isinstance(arg, np.ndarray | str):
             facing_from = self.__applyAnchor()
             facing_to = self.__to(arg)
             deltas = facing_to - facing_from
@@ -109,11 +109,11 @@ class Execute:
         return self
 
     def positioned(self, arg: np.ndarray | Entity | list[Entity] | str = "@s") -> Execute:
-        if arg == "@s":
+        if isinstance(arg, str) and arg == "@s":
             if any(e is None for e in self.__entities):
                 raise ValueError("Cannot execute 'positioned as @s' from a non-entity source.")
             self.__positions = np.array([i.position for i in self.__entities], dtype=np.float64)
-        elif isinstance(arg, np.ndarray | str) and arg != "@s":
+        elif isinstance(arg, np.ndarray | str):
             pos = arg
             self.__positions = self.__to(pos)
             self.anchor = EntityAnchor.feet
@@ -126,11 +126,11 @@ class Execute:
         return self
 
     def rotated(self, arg: np.ndarray | Entity | list[Entity] | str = "@s") -> Execute:
-        if arg == "@s":
+        if isinstance(arg, str) and arg == "@s":
             if any(e is None for e in self.__entities):
                 raise ValueError("Cannot execute 'rotated as @s' from a non-entity source.")
             self.__rotations = np.array([i.rotation for i in self.__entities], dtype=np.float32)
-        elif isinstance(arg, np.ndarray | str) and arg != "@s":
+        elif isinstance(arg, np.ndarray | str):
             rot = arg
             self.__rotations = self.__rot_to(rot)
         else:
