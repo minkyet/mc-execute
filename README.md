@@ -2,12 +2,12 @@
 
 > Simulate Minecraft `execute` commands in a Python environment.
 
-**mc_execute** is a library for simulating Minecraft `execute` command chains within Python. It is designed for complex particle path calculations, large-scale entity raycasting simulations, and precise datapack logic verification.
+**mc_execute** is a library for simulating Minecraft `execute` command chains within Python.
 
 ### Features
 - NumPy Integration: Provides execute context's position and rotation data as numpy arrays.
 - Context Forking: Implements branching logic for commands such as `execute as` and `execute at` to match in-game behavior.
-- Mathematical Parity: Uses the same calculation logic as the game to replicate in-game precision errors.
+- Mathematical consistency: Uses the same calculation logic as the game to replicate in-game precision errors.
 
 ---
 
@@ -28,12 +28,12 @@ B = Entity().tp("1 2 3").rotate("-90 0")
 C = Entity().tp(np.array([1.5, 2., 3.5], dtype=np.float64)).rotate(np.array([270., 0.], dtype=np.float32))
 
 marker = Entity()   # same as tp("0. 0. 0.").rotate("0. 0.")
-player = Entity().setEyeLevel(1.62)
+player = Entity().setDimension("overworld").setEyeLevel(1.62)
 ```
 
 #### 2. Execute
 
-Utilize method chaining similar to the syntax of Minecraft's `execute` command.
+Utilize method chaining similar to the syntax of Minecraft's `execute` subcommand.
 
 ```python
 # execute as A at @s rotated as player positioned ^ ^ ^5
@@ -45,7 +45,7 @@ print(exe.rotations)  # Output rotations of all contexts
 
 #### 3. Context Fork
 
-Contexts are automatically forked when a list of multiple entities is passed to branching-capable methods.
+Contexts are forked when a list of multiple entities is passed to branching-capable methods.
 
 ```python
 # When 2 executors target 3 locations:
@@ -65,7 +65,7 @@ exe = Execute().as_(A).at(B).facing(marker)
 # Copy all contexts to a new Execute instance
 exe_copied = Execute(exe)
 
-# Apply the LAST context's position and rotation to the Entity
+# Apply the last context's position and rotation to the Entity
 chicken = Entity(exe)
 ```
 
