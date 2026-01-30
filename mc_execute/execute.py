@@ -1,7 +1,7 @@
 from __future__ import annotations
 import numpy as np
-from mth import Mth
-from argument_types import Dimension, EntityAnchor, Swizzle
+from .mth import Mth
+from .argument_types import Dimension, EntityAnchor, Swizzle
 
 class Execute:
     def __init__(self, target: Execute | Entity | None = None):
@@ -240,7 +240,7 @@ class Entity:
         self.rotation = parseRotation(self.rotation, rot)
         return self
     
-    def setDimension(self, dimension: Dimension = Dimension.overworld) -> Entity:
+    def setDimension(self, dimension: str | Dimension = Dimension.overworld) -> Entity:
         dimension = Dimension(dimension) if isinstance(dimension, str) else dimension
         self.dimension = dimension
         return self
