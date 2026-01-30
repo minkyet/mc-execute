@@ -68,3 +68,15 @@ exe_copied = Execute(exe)
 # Apply the LAST context's position and rotation to the Entity
 chicken = Entity(exe)
 ```
+
+---
+
+### Examples / Document
+
+For more details, see the [example](./example.ipynb) and [API Documentation](./API_DOC.md).
+
+---
+
+### Licences
+
+mc_execute provides [MIT License](./LICENSE).
