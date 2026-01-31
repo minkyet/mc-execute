@@ -89,7 +89,22 @@ class Execute:
                 delta = facing_to.getAnchoredPosition(anchor) - facing_from
                 rotations.append(self.__getFacingRotation(delta))
             self.__rotations = np.array(rotations)
-        elif isinstance(arg, np.ndarray | str):
+        elif isinstance(arg, np.ndarray):
+            facing_from = self.__applyAnchor() # (N, 3)
+            if arg.ndim == 1 and arg.shape[0] == 3:
+                deltas = arg - facing_from
+                self.__rotations = np.array([self.__getFacingRotation(delta) for delta in deltas])
+            elif arg.ndim == 2 and arg.shape[1] == 3:
+                num_sources = len(facing_from)
+                num_targets = len(arg)
+                sources_expanded = np.repeat(facing_from, num_targets, axis=0)
+                targets_expanded = np.tile(arg, (num_sources, 1))
+                deltas = targets_expanded - sources_expanded
+                rots = np.array([self.__getFacingRotation(delta) for delta in deltas])
+                self.__fork(rotations=rots, isAlreadyForked=True)
+            else:
+                raise ValueError(f"Invalid facing coordinate shape: {arg.shape}. Expected (3,) or (N, 3).")
+        elif isinstance(arg, str):
             facing_from = self.__applyAnchor()
             facing_to = self.__to(arg)
             deltas = facing_to - facing_from
@@ -113,14 +128,21 @@ class Execute:
             if any(e is None for e in self.__entities):
                 raise ValueError("Cannot execute 'positioned as @s' from a non-entity source.")
             self.__positions = np.array([i.position for i in self.__entities], dtype=np.float64)
-        elif isinstance(arg, np.ndarray | str):
-            pos = arg
-            self.__positions = self.__to(pos)
+        elif isinstance(arg, np.ndarray):
+            if arg.ndim == 2 and arg.shape[1] == 3:
+                self.__fork(positions=arg)
+            elif arg.ndim == 1 and len(arg) == 3:
+                self.__positions = self.__to(arg)
+            else:
+                raise ValueError(f"Invalid position array shape: {arg.shape}. Expected (3,) or (N, 3).")
+            self.anchor = EntityAnchor.feet
+        elif isinstance(arg, str):
+            self.__positions = self.__to(arg)
             self.anchor = EntityAnchor.feet
         else:
             target = arg
             pos_target = [target] if isinstance(target, Entity) else target
-            pos = np.array([i.position for i in pos_target])
+            pos = np.array([i.position for i in pos_target], dtype=np.float64)
             self.__fork(positions=pos)
 
         return self
@@ -130,13 +152,19 @@ class Execute:
             if any(e is None for e in self.__entities):
                 raise ValueError("Cannot execute 'rotated as @s' from a non-entity source.")
             self.__rotations = np.array([i.rotation for i in self.__entities], dtype=np.float32)
-        elif isinstance(arg, np.ndarray | str):
-            rot = arg
-            self.__rotations = self.__rot_to(rot)
+        elif isinstance(arg, np.ndarray):
+            if arg.ndim == 2 and arg.shape[1] == 2:
+                self.__fork(rotations=arg)
+            elif arg.ndim == 1 and len(arg) == 2:
+                self.__rotations = self.__rot_to(arg)
+            else:
+                raise ValueError(f"Invalid rotation array shape: {arg.shape}. Expected (2,) or (N, 2).")
+        elif isinstance(arg, str):
+            self.__rotations = self.__rot_to(arg)
         else:
             target = arg
             rot_target = [target] if isinstance(target, Entity) else target
-            rot = np.array([i.rotation for i in rot_target])
+            rot = np.array([i.rotation for i in rot_target], dtype=np.float32)
             self.__fork(rotations=rot)
 
         return self
