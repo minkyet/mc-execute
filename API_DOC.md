@@ -40,21 +40,24 @@ When passing a list of entities to methods like `as_`, `at`, `facing`, `position
 ---
 
 ## 2. Entity Class
+
 The `Entity` class represents an individual object in the world. It holds physical state data and can be used to capture the results of an `Execute` chain.
 
 ### Constructor & Attributes
-* **`__init__(target)`**: 
-    * If `Execute`: Inherits the last context from the execute chain.
-    * If `Entity`: Performs a deep copy of the provided entity's state.
-* **`position`**: `[x, y, z]` NumPy array (`float64`).
-* **`rotation`**: `[yaw, pitch]` NumPy array (`float32`).
-* **`dimension`**: The current `Dimension` enum value.
-* **`eye_level`**: Offset added to `position` when using `EntityAnchor.eyes`.
+
+| Member | Type | Description |
+| :--- | :--- | :--- |
+| **`__init__(target)`** | target: `Execute \| Entity` | Initializes the context. If `Execute`, only the last context from target `Execute` will be applied during initialization. |
+| **`position`** | `np.ndarray` | `[x, y, z]` NumPy array (`float64`). |
+| **`rotation`** | `np.ndarray` | `[yaw, pitch]` NumPy array (`np.float32`). |
+| **`dimension`** | `Dimension` | The current `Dimension` enum value. |
+| **`eye_level`** | `np.float64` | Offset added to `position` when using `EntityAnchor.eyes`. |
 
 ### Methods
+
 | Method | Parameters | Description |
 | :--- | :--- | :--- |
-| **`setEyeLevel`** | `height: float` | Sets the vertical offset for the entity's eyes. |
+| **`setEyeLevel`** | `height` | Sets the vertical offset for the entity's eyes. |
 | **`getAnchoredPosition`** | `anchor` | Returns the position adjusted for the specified anchor (`feet` or `eyes`). |
 | **`tp`** | `pos, dimension` | Teleports the entity. Supports 3-value strings (`"x y z"`) or 5-value strings (`"x y z yaw pitch"`). |
 | **`rotate`** | `rot` | Updates the entity's rotation. Supports relative rotation strings (e.g., `"~10 ~"`). |

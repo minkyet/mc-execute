@@ -7,7 +7,7 @@
 ### Features
 - NumPy Integration: Provides execute context's position and rotation data as numpy arrays.
 - Context Forking: Implements branching logic for commands such as `execute as` and `execute at` to match in-game behavior.
-- Mathematical consistency: Uses the same calculation logic as the game to replicate in-game precision errors.
+- Mathematical Consistency: Uses the same calculation logic as the game to replicate in-game precision errors.
 
 ---
 
