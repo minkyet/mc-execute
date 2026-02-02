@@ -4,14 +4,12 @@ SIN_QUANTIZATION = np.int32(65536)
 SIN_MASK = np.int32(65535)
 COS_OFFSET = np.int32(16384)
 SIN_SCALE = np.float64(10430.378350470453)
-MULTIPLY_DE_BRUIJN_BIT_POSITION = np.array([0, 1, 28, 2, 29, 14, 24, 3, 30, 22, 20, 15, 25, 17, 4, 8, 31, 27, 13, 23, 21, 19, 16, 7, 26, 12, 18, 6, 11, 5, 10, 9], dtype=np.int32)
 ONE_SIXTH = np.float64(0.16666666666666666)
-FRAC_EXP = np.int32(8)
 LUT_SIZE = np.int32(257)
 FRAC_BIAS = np.float64(np.int64(4805340802404319232).view(np.float64))
 class Mth:
     __SIN = np.fromfunction(lambda i: np.float32(np.sin(i / SIN_SCALE)), (SIN_QUANTIZATION,), dtype=np.float32)
-    __ASIN_TAB = np.fromfunction(lambda i: np.arcsin(np.double(i / 256.0)), (257,), dtype=np.float64)
+    __ASIN_TAB = np.fromfunction(lambda i: np.arcsin(np.double(i / 256.0)), (LUT_SIZE,), dtype=np.float64)
     __COS_TAB = np.cos(__ASIN_TAB, dtype=np.float64)
     
     @staticmethod
