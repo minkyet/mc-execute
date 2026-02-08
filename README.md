@@ -1,7 +1,5 @@
 # 🔗 mc-execute
 
-> Simulate Minecraft `execute` commands in a Python environment.
-
 **mc-execute** is a python library for simulating Minecraft `execute` command chains.
 
 ### Features
