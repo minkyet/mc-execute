@@ -77,6 +77,24 @@ For more details, see the [example](./example.ipynb) and [API Documentation](./A
 
 ---
 
+#### ※ Notes on printing values
+
+If you want to see the same values ​​as in-game, you need to configure the numpy output format.
+
+```python
+np.set_printoptions(precision=30, floatmode='unique', suppress=True)
+```
+
+Despite this, [`rotation` tends to be automatically cast to `np.float64` and output when printed.](https://github.com/numpy/numpy/issues/10645)
+To print `np.float32` values ​​correctly, wrap them in `np.array` and then print them.
+
+```python
+yaw = chicken.rotation[0]
+print(f"yaw: {np.array([yaw])}")
+```
+
+---
+
 ### Licences
 
 mc-execute provides [MIT License](./LICENSE).
