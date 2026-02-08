@@ -48,7 +48,7 @@ The `Entity` class represents an individual object in the world. It holds physic
 | Member | Type | Description |
 | :--- | :--- | :--- |
 | **`__init__(target)`** | target: `Execute \| Entity` | Initializes the context. If `Execute`, only the last context from target `Execute` will be applied during initialization. |
-| **`position`** | `np.ndarray` | `[x, y, z]` NumPy array (`float64`). |
+| **`position`** | `np.ndarray` | `[x, y, z]` NumPy array (`np.float64`). |
 | **`rotation`** | `np.ndarray` | `[yaw, pitch]` NumPy array (`np.float32`). |
 | **`dimension`** | `Dimension` | The current `Dimension` enum value. |
 | **`eye_level`** | `np.float64` | Offset added to `position` when using `EntityAnchor.eyes`. |
