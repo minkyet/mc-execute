@@ -265,7 +265,7 @@ class Entity:
         return self
         
     def rotate(self, rot: np.ndarray | str) -> Entity:
-        self.rotation = parseRotation(self.rotation, rot)
+        self.rotation = parseRotation(self.rotation, rot, isEntity=True)
         return self
     
     def setDimension(self, dimension: str | Dimension = Dimension.overworld) -> Entity:
@@ -273,7 +273,7 @@ class Entity:
         self.dimension = dimension
         return self
         
-def parseRotation(rotation: np.ndarray, to: np.ndarray | str) -> np.ndarray:        
+def parseRotation(rotation: np.ndarray, to: np.ndarray | str, isEntity:bool = False) -> np.ndarray:        
     if isinstance(to, np.ndarray) and len(to) == 2:
         return np.array([Mth.wrapDegrees(i) for i in to])
     if not isinstance(to, str):
@@ -282,7 +282,10 @@ def parseRotation(rotation: np.ndarray, to: np.ndarray | str) -> np.ndarray:
     result_vec = np.zeros(2, dtype=np.float32)
     splited = to.split()
     result_vec[0] = Mth.wrapDegrees(rotation[0] + np.float32(splited[0][1:] if len(splited[0]) > 1 else 0) if splited[0][0] == '~' else np.float32(splited[0]))
-    result_vec[1] = np.float32(np.clip(rotation[1] + np.float32(splited[1][1:] if len(splited[1]) > 1 else 0) if splited[1][0] == '~' else np.float32(splited[1]), -90.0, 90.0))
+    if isEntity:
+        result_vec[1] = np.float32(np.clip(rotation[1] + np.float32(splited[1][1:] if len(splited[1]) > 1 else 0) if splited[1][0] == '~' else np.float32(splited[1]), -90.0, 90.0))
+    else:
+        result_vec[1] = np.float32(rotation[1] + np.float32(splited[1][1:] if len(splited[1]) > 1 else 0) if splited[1][0] == '~' else np.float32(splited[1]))
     return result_vec
 
 def parseCoordinates(position: np.ndarray, rotation: np.ndarray, to: np.ndarray | str) -> np.ndarray:
