@@ -281,11 +281,10 @@ def parseRotation(rotation: np.ndarray, to: np.ndarray | str, isEntity:bool = Fa
     
     result_vec = np.zeros(2, dtype=np.float32)
     splited = to.split()
-    result_vec[0] = Mth.wrapDegrees(rotation[0] + np.float32(splited[0][1:] if len(splited[0]) > 1 else 0) if splited[0][0] == '~' else np.float32(splited[0]))
+    result_vec[0] = Mth.wrapDegrees(np.float64(rotation[0]) + np.float64(splited[0][1:] if len(splited[0]) > 1 else 0) if splited[0][0] == '~' else np.float32(splited[0]))
+    result_vec[1] = np.float32(np.float64(rotation[1]) + np.float64(splited[1][1:] if len(splited[1]) > 1 else 0) if splited[1][0] == '~' else np.float32(splited[1]))
     if isEntity:
-        result_vec[1] = np.float32(np.clip(rotation[1] + np.float32(splited[1][1:] if len(splited[1]) > 1 else 0) if splited[1][0] == '~' else np.float32(splited[1]), -90.0, 90.0))
-    else:
-        result_vec[1] = np.float32(rotation[1] + np.float32(splited[1][1:] if len(splited[1]) > 1 else 0) if splited[1][0] == '~' else np.float32(splited[1]))
+        result_vec[1] = np.float32(np.clip(result_vec[1], -90.0, 90.0))
     return result_vec
 
 def parseCoordinates(position: np.ndarray, rotation: np.ndarray, to: np.ndarray | str) -> np.ndarray:
