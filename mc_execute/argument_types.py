@@ -1,4 +1,4 @@
-from enum import Enum
+from enum import Enum, IntFlag
 
 class Dimension(Enum):
     overworld = 0
@@ -39,7 +39,8 @@ class HeightMap(Enum):
     motion_blocking_no_leaves = 2
     ocean_floor = 3
 
-class Swizzle(Enum):
+class Swizzle(IntFlag):
+    none = 0
     x = 1
     y = 1 << 1
     z = 1 << 2
